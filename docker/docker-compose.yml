@@ -1,0 +1,30 @@
+version: '31'
+services:
+  postgres:
+    image: postgres:latest
+    container_name: mi_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: jarvis-local
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5432:5432" 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: mi_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: mi_correo@example.com
+      PGADMIN_DEFAULT_PASSWORD: 1234
+    ports:
+      - "8081:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  postgres_data:
+  pgadmin_data:

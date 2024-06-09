@@ -1,0 +1,16 @@
+@import './normalize.css';
+@import './base.css';
+
+a {
+  text-decoration: none;
+  color: var(--primary-blue-color);
+  transition: 0.2s;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  a:hover {
+    color: var(--primary-aqua);
+  }
+}

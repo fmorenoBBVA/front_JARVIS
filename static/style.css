@@ -1,0 +1,14 @@
+  body {
+    margin: 20px 60px;
+  }
+
+  .container_alignY {
+    display: flex; /* establece el contenedor como flex */
+    align-items: center; /* centra verticalmente el contenido */
+    justify-content: center; /* centra horizontalmente el contenido */
+    height: 100vh; /* establece la altura del contenedor */
+  }
+  
+  .centrado_alignY {
+    width: 50%; /* establece el ancho del div centrado */
+  }

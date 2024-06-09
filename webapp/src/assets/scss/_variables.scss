@@ -1,0 +1,49 @@
+// Principal colors
+$primary-color: #004283;
+$white-color:#FFFFFF;
+$text-color: #121212;
+
+// Nav colors
+$nav-color:#072149;
+$nav-a-activated-color:#FFFFFF;
+$nav-a-color:#D3D3D3;
+
+// SubHeader colors
+$sub-header-color: #004481;
+$tfn-card-color:#E9E9E9;
+
+// Footer colors
+$footer-color: #EAF7FB;
+$color-link: #1973B8;
+
+// Card colors
+$color-day-orange: #F7893B;
+$color-day-blue: #1973B8;
+
+// Toast colors
+$light-green: #D9EFE0;
+$light-red: #FCDFDF;
+$light-blue: #1464A5;
+
+
+// Tag colors:
+$sucess-color: #48AE64;
+$reject-color: #DA3851;
+$progess-color: #F8CD51;
+$expired-color: #D3D3D3;
+
+
+$breakpoints: (
+  'phone': 400px,
+  'phone-wide': 480px,
+  'phablet': 560px,
+  'tablet-small': 640px,
+  'tablet': 768px,
+  'mtablet' : 896px,
+  'tablet-wide': 1024px,
+  'desktop': 1248px,
+  'desktop-wide': 1440px,
+  'extra-deskpot-wide': 1500px
+);
+
+$browser-context: 16;

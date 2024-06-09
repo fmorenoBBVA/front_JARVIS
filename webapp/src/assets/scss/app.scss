@@ -1,0 +1,365 @@
+/* global styles */
+@import '@/assets/scss/_variables';
+@import '@/assets/scss/utils';
+
+// Regular/Medium 500
+@font-face {
+  font-family: "BentonSans";
+  src: url("../fonts/BBVABentonSansLight-Bold.ttf");
+  font-style: normal;
+  font-weight: 500;
+}
+// Book 350
+@font-face {
+  font-family: "BentonSans";
+  src: url("../fonts/BBVABentonSansLight-Regular.ttf");
+  font-style: normal;
+  font-weight: 350;
+}
+// Book 700
+@font-face {
+  font-family: "BentonSans";
+  src: url("../fonts/BBVABentonSans-Book.ttf");
+  font-style: normal;
+  font-weight: normal;
+}
+// Bold
+@font-face {
+  font-family: "BentonSans";
+  src: url("../fonts/BBVABentonSans-Bold.ttf");
+  font-weight: bold;
+}
+
+body {
+  margin: 0;
+  color: #4c4c4c;
+  font-size: 1rem;
+  font-weight: 350;
+  font-family: "BentonSans", Helvetica, sans-serif;
+  line-height: 1.6rem;
+  overflow-y: scroll;
+  min-width: 320px;
+}
+
+.row {
+  margin: 0 56px;
+  padding: 0 15px;
+}
+
+a {
+  color: #337ab7;
+
+  &:hover {
+    color: #2dcccd;
+  }
+}
+
+.btn-confirmation {
+  background-color: $color-link;
+  border: 1px solid $color-link;
+  border-radius: 1px;
+  color: $white-color;
+}
+
+.btn-cancel {
+  background: $white-color;
+  border: 1px solid $nav-a-color;
+  border-radius: 1px;
+  color: $color-link;
+  font-weight: 500;
+
+}
+
+.btn-search {
+  background-color: $white-color;
+  border: 1px solid $white-color;
+  color: $color-link;
+}
+
+.btn-delete, .btn-transparent {
+  background: transparent;
+  border: none;
+  color: $white-color;
+}
+
+.btn-confirmation, .btn-cancel, .btn-search, .btn-delete {
+  cursor: pointer;
+  border-radius: 1px;
+  width: 153px;
+  height: 48px;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+option:disabled {
+  color: white;
+}
+
+.opt-button{
+  background-color: $color-link;
+  border: 1px solid $color-link;
+  width: 153px;
+  height: 48px;
+  border-radius: 1px;
+  color: $white-color;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: center;
+}
+.download-button{
+  border: none;
+  cursor: pointer;
+  appearance: none;
+  background-color: inherit;
+  font-size: 16px;
+}
+.download-button, .opt-button {
+  font-weight: 500;
+  line-height: 24px;
+}
+.table_button{
+  border: none;
+  cursor: pointer;
+  appearance: none;
+  background-color: inherit;
+  margin-right: 22px;
+}
+
+.p-tag{
+  font-family: "BentonSans",Helvetica, sans-serif;
+  font-weight: 350;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.form-select {
+  cursor: pointer;
+}
+.form-select, .form-input {
+  background-color: $tfn-card-color;
+  border: none;
+  border-bottom: 1px solid #d1d1d1;
+  padding: 8px 16px;
+  font-family: "BentonSans", Helvetica, sans-serif;
+  height: 48px;
+
+  &:focus {
+    outline: none;
+  }
+
+  &--dark {
+    background-color: $light-blue;
+    border-bottom: 1px solid $white-color;
+    color: $white-color;
+    padding-right: 25px;
+
+    &::placeholder {
+      color: $white-color;
+    }
+
+    &:placeholder-shown {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+}
+
+.form-select {
+  appearance: none;
+  background-image: url("../img/unfold.svg");
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: 30px;
+
+  &--dark {
+    background-image: url("../img/unfold-white.svg");
+  }
+}
+
+.form-input {
+  &--number {
+    width: 165px;
+    height: 48px;
+  }
+
+  &--text {
+    width: 331px;
+    height: 48px;
+  }
+
+  &--search {
+    background: url("../img/search.svg") no-repeat scroll 7px 7px;
+    background-position: 95%;
+    background-color: $light-blue;
+  }
+}
+
+.error-message{
+  color: $reject-color
+}
+
+.modal {
+  display: block;
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+}
+
+@media (min-width: 10px) and (max-width: 500px){
+  .side-modal {
+    width: 100%;
+    padding: var(--header-height-mobile) calc(var(--default-size)*3) calc(var(--default-size)*22);
+  }
+  .side-modal-bg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media (min-width: 501px) and (max-width: 1500px){
+  .side-modal {
+    width: 70%;
+    padding: var(--header-height-mobile) calc(var(--default-size)*3) calc(var(--default-size)*22);
+  }
+  .side-modal-bg {
+    width: 70%;
+    height: 100%;
+  }
+}
+
+@media (min-width: 1501px) and (max-width: 4000px){
+  .side-modal {
+    width: 55%;
+  }
+  .side-modal-bg {
+    width: 55%;
+    height: 100%;
+  }
+}
+
+.side-modal {
+  background-color: $white-color;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 20px 32px 32px 32px;
+  min-height: 100vh;
+
+
+  &__close {
+    cursor: pointer;
+    width: 30px;
+    display: -webkit-box;
+    margin-left: auto;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 32px;
+    margin-bottom: 20px;
+  }
+
+  &__subtitle {
+    color: #666666; // $dark-grey
+    font-style: normal;
+    font-weight: 350;
+    font-size: 15px;
+    line-height: 24px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+
+    &--subtitle2 {
+      margin-top: 8px;
+    }
+  }
+}
+
+.input-field input::placeholder {
+  color: #FFFFFF;
+}
+
+.input-field input {
+  border-radius: 0 !important;
+  border-bottom: 1px solid #FFFFFF !important;
+}
+
+.input-field .expirationDateFrom {
+  border-right: 1px solid #FFFFFF !important;
+}
+
+.spinner {
+  margin-top: 100px;
+}
+
+
+.p-datatable-export i {
+  text-decoration: none;
+  color: #337ab7;
+  transition: 0.2s;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1.6rem;
+}
+.p-datatable-export a {
+  font-family: "BentonSans", Helvetica, sans-serif;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  padding: 0.5rem 0.5rem;
+  height: 50px;
+  max-width: 400px;
+  min-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.p-datatable .p-datatable-tbody > tr > td {
+  padding: 0.5rem 0.5rem;
+  height: 50px;
+  max-width: 400px;
+  min-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.p-datatable .p-datatable-tfoot > tr > td {
+  padding: 0.5rem 0.5rem;
+}
+.justify-content-between {
+  display: flex!important;
+  justify-content: space-between!important;
+}
+
+
+.p-multiselect-label {
+  display: block;
+  white-space: nowrap;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}

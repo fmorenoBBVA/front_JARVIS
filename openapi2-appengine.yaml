@@ -1,0 +1,26 @@
+swagger: '2.0'
+info:
+  title: API_ID optional-string
+  description: Sample API on API Gateway with an App Engine backend
+  version: 1.0.0
+schemes:
+  - https
+produces:
+  - application/json
+x-google-endpoints:
+- name: https://api-test-project-dev.appspot.com'
+  allowCors: True
+paths:
+  /users_managed:
+    get:
+      summary: Returns a list of users.
+      description: Optional extended description in Markdown.
+      operationId: users_managed
+      x-google-backend:
+        address: https://api-test-project-dev.appspot.com
+        jwt_audience: /projects/490931628093/apps/api-test-project-dev
+      responses:
+        '200':
+          description: A successful response
+          schema:
+            type: string

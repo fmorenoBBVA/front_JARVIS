@@ -1,0 +1,14 @@
+service: default
+runtime: python311
+
+handlers:
+
+- url: /(.*\.(html|js|css|svg|json|png|jpg|gif|map|woff|ttf|ico))
+  static_files: dist/\1
+  upload: dist/.*\.(html|js|css|svg|json|png|jpg|gif|map|woff|ttf|ico)
+  secure: always
+  login: required
+
+- url: /.*
+  script: auto
+  secure: always
