@@ -15,7 +15,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      beforeEnter: async (to, from, next) => {
+/*      beforeEnter: async (to, from, next) => {
         try {
           const authorized = storeVar.state.globalUser.emailVerified;
           authorized ? next() : next({ name: 'noAccessPage' });
@@ -23,7 +23,7 @@ const router = createRouter({
           console.error('Error:', error);
           next({ name: 'errorPage' }); // Redirige a una página de error en caso de un error
         }
-      }
+      }*/
     }
   ]
 })

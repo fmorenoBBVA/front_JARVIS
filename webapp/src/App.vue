@@ -25,10 +25,10 @@ export default {
     
   },
   created() {
-//    this.fetchGlobalUser();
+    this.fetchGlobalUser();
   },
   methods: {
-/*    async fetchGlobalUser() {
+    async fetchGlobalUser() {
       try {
         const globalUser = await getAuthFirebase();
         this.$store.commit('setGlobalUser', globalUser);
@@ -40,7 +40,7 @@ export default {
       } catch (error) {
         console.error('Error al obtener usuario global:', error);
       }
-    }*/
+    }
   }
 }
 
