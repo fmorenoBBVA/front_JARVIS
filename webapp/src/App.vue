@@ -30,10 +30,11 @@ export default {
   methods: {
     async fetchGlobalUser() {
       try {
-        const globalUser = await getAuthFirebase();
+        //const globalUser = await getAuthFirebase();
+	const globalUser = {emailVerified : true};
         this.$store.commit('setGlobalUser', globalUser);
         if(globalUser.emailVerified) {
-          this.$store.dispatch('getUsersManaged');
+ //         this.$store.dispatch('getUsersManaged');
           router.push('/');
         }
         this.loading = false;
