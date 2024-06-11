@@ -1,9 +1,9 @@
 <template>
     <transition name="chat-fade">
         <section class="jarvis-chat" :class="size" v-if="visible">
-            <chat-header :title="title" :size="size" @close="handleClose" @redimension="handleRedimension" @refresh="handleRefresh" />
-            <chat-body :size="size" :messages="messages" @send-suggestion="handleMessage" />
-            <chat-footer @send-message="handleMessage" />
+            <chat-header :title="title" :isMobile="isMobile" :size="size" @close="handleClose" @redimension="handleRedimension" @refresh="handleRefresh" />
+            <chat-body :size="size" :isMobile="isMobile" :messages="messages" @send-suggestion="handleMessage" @send-message="handleMessage" :loading="loading" />
+            <chat-footer @send-message="handleMessage" :loading="loading"/>
         </section>
     </transition>
 </template>
@@ -12,6 +12,28 @@
 import ChatHeader from '../molecules/ChatHeader.vue'
 import ChatBody from '../molecules/ChatBody.vue'
 import ChatFooter from '../molecules/ChatFooter.vue'
+
+import MapImage from '@/assets/jarvis/map.png'
+import NinjaImage from '@/assets/jarvis/ninja.png'
+import DocumentImage from '@/assets/jarvis/document.png'
+import PresentationImage from '@/assets/jarvis/presentation.png'
+import ContactImage from '@/assets/jarvis/contact.png'
+
+import MP3_02 from '@/assets/audios/02_Hola_Paco.mp3'
+import MP3_03 from '@/assets/audios/03_Hay_muchas_opciones.mp3'
+import MP3_04 from '@/assets/audios/04_Estos_cursos_ofrecen_diferentes_enfoques.mp3'
+import MP3_05 from '@/assets/audios/05_Este_curso_tiene_una_duracion.mp3'
+import MP3_06 from '@/assets/audios/06_Hay_varias_fechas_disponibles.mp3'
+import MP3_07 from '@/assets/audios/07_Este_curso_se_imparte_de_forma_presencial.mp3'
+import MP3_08 from '@/assets/audios/08_Ya_estas_inscrito.mp3'
+import MP3_09 from '@/assets/audios/09_Ya_esta_creado_el_evento_en_tu_calendario.mp3'
+import MP3_10 from '@/assets/audios/10_Ya_tienes_asignada_la_plaza_de_parking.mp3'
+import MP3_11 from '@/assets/audios/11_Para_realizar_tu_liquidacion_de_gastos.mp3'
+import MP3_12 from '@/assets/audios/12_Tienes_varias_opciones.mp3'
+import MP3_13 from '@/assets/audios/13_Si_por_supuesto.mp3'
+import MP3_14 from '@/assets/audios/14_Si_esta_es_la_presentacion.mp3'
+import MP3_15 from '@/assets/audios/15_Te_puedo_ayudar.mp3'
+import MP3_16 from '@/assets/audios/16_Puedes_preguntar_a_Miguel_Angel.mp3'
 export default {
     name: 'Chat',
     components: {
@@ -27,12 +49,47 @@ export default {
     },
     data() {
         return {
-           title: 'JARVIS',
-           size: 'small',
-           messages: []
+            loading: false,
+            title: 'JARVIS',
+            size: 'big',
+            messages: [],
+            sentMessagesCount: 0,
+            demo_responses: [
+                {text: "Hola, Paco. Veo que tienes conocimientos en frontend. Te recomendaría que te formases también en tecnologías de backend, por ejemplo Python.", isUser: false, multiple: true, audio: MP3_02},
+                {text: "Hay muchas opciones, aquí tienes los enlaces:", isUser: false, multiple: true, audio: MP3_03, links: [
+                    {text: "Charla Ninja: Python", url: "https://bbva-intranet.appspot.com/"},
+                    {text: "MOOC Ninja: Python", url: "https://bbva-intranet.appspot.com/"},
+                    {text: "Curso online en Coursera: Programación en Python", url: "https://bbva-intranet.appspot.com/"},
+                    {text: "Curso presencial: Introducción a Python.", url: "https://bbva-intranet.appspot.com/"}
+                ]},
+                {text: "Estos cursos ofrecen diferentes enfoques y duraciones, elige el que mejor se adapte a tu disponibilidad.", isUser: false, multiple: false, audio: MP3_04},
+                {text: "Este curso tiene una duración de 5 días, un total de 40 horas.", isUser: false, multiple: false, audio: MP3_05},
+                {text: "Hay varias fechas disponibles. Las convocatorias que no coinciden con tus vacaciones solicitadas son estas:", isUser: false, multiple: false, audio: MP3_06, buttons: [
+                    {text: "24/06 - 28/06", value: "Reservame para la fecha: 24/06 - 28/06"},
+                    {text: "01/07 - 05-07", value: "Reservame para la fecha: 01/07 - 05-07"},
+                    {text: "08/07 - 12/07", value: "Reservame para la fecha: 08/07 - 12/07"}
+                ]},
+                {text: "Este curso se imparte de forma presencial en el edificio Campus BBVA. Este es el itinerario desde tu ubicación actual.", isUser: false, multiple: false, image: MapImage, audio: MP3_07},
+                {text: "Ya estás inscrito. ¿Quieres que agregue un evento a tu calendario?", isUser: false, multiple: false, audio: MP3_08},
+                {text: "Ya está creado el evento en tu calendario.", isUser: false, multiple: false, audio: MP3_09},
+                {text: "Ya tienes asignada la plaza de parking s1_002 en CAMPUS LA MORALEJA.<br>Fecha: 01/07 al 05/07 de 07:00h a 22:00h<br>Acceso: Calle Veredilla, 24", isUser: false, multiple: false, audio: MP3_10},
+                {text: "Para realizar tu liquidación de gastos, puedes acceder a través de estos sitios web:<br><br>- Mi Espacio - Tu día a día - Mis gastos<br>- Menú principal - Herramientas - Liquidación de gastos de viaje<br><br>Recuerda cumplir con los importes máximos autorizados en la normativa. Consúltala <a href='https://bbva-intranet.appspot.com/'>aquí</a>.", isUser: false, multiple: true, audio: MP3_11},
+                {text: "Una vez accedas a la aplicación SAP Concur, tendrás que crear un nuevo informe de gastos haciendo click en '+ Nuevo Informe'. A continuación debes incluir en el informe los gastos realizados, pudiendo seleccionar aquellos gastos disponibles, como son los movimientos de tarjeta corporativa o aquellos que hayas creado mediante captura con la app móvil o crear un gasto nuevo en el informe.\nDebes incluir en cada gasto el comprobante digitalizado, bien a través de la app o subiendo un comprobante que tengas previamente archivado. Si todo es correcto, envía el informe para su aprobación. <a href='https://bbva-intranet.appspot.com/'>SAP Concur</a>", isUser: false, multiple: false},
+                {text: "Tienes varias opciones, pero según las valoraciones de los usuarios, te recomiendo esta charla Ninja.", isUser: false, multiple: false, image: NinjaImage, audio: MP3_12},
+                {text: "Sí, por supuesto, aquí tienes el resumen de la transcripción del video.", isUser: false, multiple: false, image: DocumentImage, audio: MP3_13},
+                {text: "Sí, esta es la presentación que he creado.", isUser: false, multiple: true, image: PresentationImage, audio: MP3_14},
+                {text: "¿Te puedo ayudar en algo más?", isUser: false, multiple: false, audio: MP3_15},
+                {text: "Puedes preguntar a Miguel Ángel Almena García. Tiene un nivel avanzado en Python y trabaja en tu misma oficina y departamento.", isUser: false, multiple: true, audio: MP3_16},
+                {text: "Esta es su información de contacto.", isUser: false, multiple: false, image: ContactImage},
+            ]
         }
     },
     emits: ['close'],
+    computed: {
+        isMobile() {
+            return window.innerWidth <= 768;
+        }
+    },
     methods: {
         handleClose() {
             this.$emit('close');
@@ -42,16 +99,46 @@ export default {
         },
         handleRefresh() {
             this.messages = [];
+            this.sentMessagesCount = 0;
         },
         handleMessage(message) {
-            this.messages.push({ text: message, isUser: true });
+            this.messages.unshift({ text: message, isUser: true });
+            this.loading = true;
             this.callResponse(message);
         },
         callResponse(message) {
-
-            setTimeout(() => {
-                this.messages.push({ text: 'Hola, soy Jarvis', isUser: false });
-            }, 1000);
+            let response = {}
+            if (import.meta.env.VITE_APP_DEMO === 'true') {
+                response = this.demo_responses[this.sentMessagesCount];
+                this.sentMessagesCount++;
+            } else {
+                // call api with message
+                response = { text: 'Hola, soy Jarvis', isUser: false }
+            }
+            if (response) {
+                setTimeout(() => {
+                    this.loading = false;
+                    // play audio
+                    if (response.audio) {
+                        const audio = new Audio(response.audio);
+                        
+                        this.messages.unshift(response);
+                        audio.play().then(() => {
+                            audio.addEventListener('ended', () => {
+                                if (response.multiple) this.callResponse();
+                            });
+                        }).catch(error => {
+                            console.error('Error playing audio:', error);
+                            // Proceed with other operations if audio playback fails
+                            this.messages.unshift(response);
+                            if (response.multiple) this.callResponse();
+                        });
+                    } else {
+                        this.messages.unshift(response);
+                        if (response.multiple) this.callResponse();
+                    }
+                }, 1000);
+            }
         }
     }
 }   
@@ -84,6 +171,16 @@ export default {
         height: 70vh;
         width: 600px;
         max-width: 600px;
+
+        @media (max-width: 768px) {
+            height: 100vh;
+            width: 100%;
+            max-width: 100%;
+            border-radius: 0;
+            right: 0;
+            bottom: 0;
+            margin: 0;
+        }
     }
 }
 </style>

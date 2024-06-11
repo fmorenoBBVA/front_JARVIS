@@ -1,7 +1,7 @@
 <template>
     <div class="chat-header" :class="size">
         <Button @click="handleRedimension" class="redimension">
-            <img src="@/assets/jarvis/open_in_full.svg" alt="close" v-if="isSmall" />
+            <img src="@/assets/jarvis/open_in_full.svg" alt="close" v-if="small" />
             <img src="@/assets/jarvis/close_fullscreen.svg" alt="close" v-else />
         </Button>
         <Button @click="handleRefresh" class="refresh">
@@ -11,13 +11,13 @@
             <img src="@/assets/jarvis/close.svg" alt="close" />
         </Button>
         <h1>{{ title }}</h1>
-        <jarvis-profile v-if="isSmall" />
+        <jarvis-profile v-if="small" />
     </div>
 </template>
 
 <script>
 import Button from '../atoms/Button.vue'
-import JarvisProfile from '../atoms/JarvisProfile.vue'
+import JarvisProfile from '@/components/jarvis/atoms/JarvisProfile.vue'
 export default {
     name: 'ChatHeader',
     components: {
@@ -32,12 +32,16 @@ export default {
         size: {
             type: String,
             required: true
+        },
+        isMobile: {
+            type: Boolean,
+            required: false
         }
     },
     emits: ['close', 'redimension', 'refresh'],
     computed: {
-        isSmall() {
-            return this.size === 'small';
+        small() {
+            return this.size === 'small' || this.isMobile;
         }
     },
     methods: {
@@ -103,6 +107,12 @@ export default {
         h1 {
             padding: 10px 0 10px 0;
         }
+        @media (max-width: 768px) {
+           h1 {
+               padding: 10px 0 30px 0;
+           }
+        }
+        
     }
     .jarvis-icon {
         position: absolute;

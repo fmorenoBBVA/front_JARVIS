@@ -16,7 +16,7 @@ export default {
     },
     data() {
         return {
-            chatVisible: false,
+            chatVisible: true,
         };
     },
     methods: {

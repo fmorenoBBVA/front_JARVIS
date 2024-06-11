@@ -1,11 +1,11 @@
 <template>
-    <section class="jarvis-chat__body" :class="size">
+    <section class="jarvis-chat__body" :class="{'small': small, 'loading': loading}">
         <div class="conversation" v-if="messages.length > 0" >
-            <Message v-for="(message, index) in messages" :key="index" :message="message" :size="size" />
+            <Message v-for="(message, index) in messages" :key="index" :message="message" :small="small" @send-message="sendMessage" />
         </div>
         <div class="welcome"  v-else>
             <div class="hi">
-                <jarvis-profile v-if="size === 'big'"/>
+                <jarvis-profile v-if="!small"/>
                 <p>¡Hola, soy Jarvis!</p>
                 <p>¿En qué puedo ayudarte?</p>
             </div>
@@ -43,7 +43,7 @@ export default {
             ]
         }
     },
-    emits: ['send-suggestion'],
+    emits: ['send-suggestion', 'send-message'],
     props: {
         size: {
             type: String,
@@ -52,18 +52,42 @@ export default {
         messages: {
             type: Array,
             required: false
+        },
+        isMobile: {
+            type: Boolean,
+            required: false
+        },
+        loading: {
+            type: Boolean,
+            required: false
         }
     },
     computed: {
         filterSuggestions() {
             const randomSuggestions = this.suggestions.sort(() => Math.random() - 0.5);
-            return this.size === 'small' ? randomSuggestions.slice(0, 2) : randomSuggestions;
+            return this.small ? randomSuggestions.slice(0, 2) : randomSuggestions;
+        },
+        small() {
+            return this.size === 'small' || this.isMobile;
         }
     },
     methods: {
         sendSuggestion(message) {
             this.$emit('send-suggestion', message);
+        },
+        sendMessage(message) {
+            console.log(message)
+            this.$emit('send-message', message);
+        },
+        scrollToBottom() {
+            const conversation = this.$refs.conversation;
+            if (conversation) {
+                conversation.scrollTop = conversation.scrollHeight;
+            }
         }
+    },
+    updated() {
+        this.scrollToBottom();
     }
 }
 </script>
@@ -79,6 +103,21 @@ export default {
     display: flex;
     flex-direction: column-reverse;
     font-size: 15px;
+
+    &.loading {
+        bottom: 100px;
+    }
+    .conversation {
+        display: flex;
+        flex-direction: column-reverse;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+    }
     &.small {
         top: 66px;
     }

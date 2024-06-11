@@ -1,9 +1,13 @@
 <template>
     <footer class="jarvis-chat__footer">
+        <img src="@/assets/jarvis/chat_loading.gif" class="loading" alt="loading" v-if="loading"  />
         <div class="jarvis-chat__input">
             <form >
                 <input type="text" placeholder="Mensaje" v-model="transcript" @keypress="preventEnter" @keypress.enter="sendMessage"/>
-                <Button class="jarvis-chat__icon" @click="callRecognizing(true)" v-if="!isRecognizing">
+                <Button class="jarvis-chat__icon" @click="sendMessage" v-if="transcript.length > 0">
+                    <img src="@/assets/jarvis/send.svg" alt="send" />
+                </Button>
+                <Button class="jarvis-chat__icon" @click="callRecognizing(true)" v-else-if="!isRecognizing">
                     <img src="@/assets/jarvis/microphone.svg" alt="micro" />
                 </Button>
                 <Button v-else @click="callRecognizing(true)" class="jarvis-chat__icon">
@@ -20,6 +24,12 @@ export default {
     name: 'ChatFooter',
     components: {
         Button
+    },
+    props: {
+        loading: {
+            type: Boolean,
+            default: false
+        },
     },
     data() {
         return {
@@ -48,8 +58,8 @@ export default {
         sendMessage() {
             if (this.transcript) {
                 this.$emit('send-message', this.transcript.trim());
-                this.transcript = '';
             }
+            this.transcript = '';
         }
     },
     mounted() {
@@ -89,6 +99,12 @@ export default {
     left: 0;
     padding: 10px;
     font-size: 15px;
+    flex-direction: column;
+    .loading {
+        height: 60px;
+        aspect-ratio: 1/1;
+        z-index: -2;
+    }
     .jarvis-chat__input {
         width: 100%;
         position: relative;
