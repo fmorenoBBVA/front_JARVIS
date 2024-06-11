@@ -3,7 +3,7 @@
         <div class="spinnerGlobal__background">
           <div class="spinnerGlobal__body">
               <div class="spinnerGlobal__header">
-                <img src='../assets/img/Spinner_Lila_wheel.gif' alt="not result found">
+                <img src='../assets/img/Spinner_White_64.gif' alt="not result found">
               </div>
 
               <p class="spinnerGlobal__body__title">{{ notResultsFoundData.titleMesg }}</p>
