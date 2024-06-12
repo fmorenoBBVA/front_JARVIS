@@ -27,9 +27,13 @@ ApiInstance.interceptors.request.use(async function(config) {
   try {
     //const token = await getToken(); // Espera a que se resuelva la promesa de getToken()
     //console.log(token)
+
+    // si estais desplegando en GCP añadir token de comando : gcloud auth print-access-token
+    //const token = ""
     //config.headers.Authorization = 'Bearer ' + token; // Agrega el token a las cabeceras de la solicitud
+    
     // Agregar cabecera CORS para permitir solicitudes desde el origen de la aplicación Vue
-    //config.headers['Access-Control-Allow-Origin'] = '*';
+    config.headers['Access-Control-Allow-Origin'] = '*';
     config.headers['Content-Type'] = 'application/json';
 
   } catch (error) {
@@ -56,7 +60,7 @@ export const getEntities = async (endpoint, params) => {
       return response.data
     })
     .catch(err => {
-      return err.message
+      return {error: true, message: err.message}
     })
 }
 export const insertEntity = async (endpoint, data) => {
@@ -65,7 +69,7 @@ export const insertEntity = async (endpoint, data) => {
       return response.data
     })
     .catch(err => {
-      return err.message
+      return {error: true, message: err.message}
     })
 }
 export const getEntityById = async (endpoint, data) => {
@@ -74,7 +78,7 @@ export const getEntityById = async (endpoint, data) => {
       return response.data
     })
     .catch(err => {
-      return err.message
+      return {error: true, message: err.message}
     })
 }
 export const editEntity = async (endpoint, data) => {
@@ -83,7 +87,7 @@ export const editEntity = async (endpoint, data) => {
       return response.data
     })
     .catch(err => {
-      return err.message
+      return {error: true, message: err.message}
     })
 }
 export const patchEntity = async (endpoint, body) => {
@@ -92,7 +96,7 @@ export const patchEntity = async (endpoint, body) => {
       return response.data
     })
     .catch(err => {
-      return err.message
+      return {error: true, message: err.message}
     })
 }
 export const deleteEntity = async (endpoint, data) => {
@@ -101,7 +105,7 @@ export const deleteEntity = async (endpoint, data) => {
       return response.data
     })
     .catch(err => {
-      return err.message
+      return {error: true, message: err.message}
     })
 }
 

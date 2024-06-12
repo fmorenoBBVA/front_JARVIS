@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 import ChatHeader from '../molecules/ChatHeader.vue'
 import ChatBody from '../molecules/ChatBody.vue'
 import ChatFooter from '../molecules/ChatFooter.vue'
@@ -91,6 +93,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions('chatModule', ['getResponseChat']),
         handleClose() {
             this.$emit('close');
         },
@@ -106,38 +109,48 @@ export default {
             this.loading = true;
             this.callResponse(message);
         },
-        callResponse(message) {
+        async callResponse(message) {
             let response = {}
             if (import.meta.env.VITE_APP_DEMO === 'true') {
                 response = this.demo_responses[this.sentMessagesCount];
                 this.sentMessagesCount++;
-            } else {
-                // call api with message
-                response = { text: 'Hola, soy Jarvis', isUser: false }
-            }
-            if (response) {
-                setTimeout(() => {
-                    this.loading = false;
-                    // play audio
-                    if (response.audio) {
-                        const audio = new Audio(response.audio);
-                        
-                        this.messages.unshift(response);
-                        audio.play().then(() => {
-                            audio.addEventListener('ended', () => {
+                if (response) {
+                    setTimeout(() => {
+                        this.loading = false;
+                        // play audio
+                        if (response.audio) {
+                            const audio = new Audio(response.audio);
+
+                            this.messages.unshift(response);
+                            audio.play().then(() => {
+                                audio.addEventListener('ended', () => {
+                                    if (response.multiple) this.callResponse();
+                                });
+                            }).catch(error => {
+                                console.error('Error playing audio:', error);
+                                // Proceed with other operations if audio playback fails
+                                this.messages.unshift(response);
                                 if (response.multiple) this.callResponse();
                             });
-                        }).catch(error => {
-                            console.error('Error playing audio:', error);
-                            // Proceed with other operations if audio playback fails
+                        } else {
                             this.messages.unshift(response);
                             if (response.multiple) this.callResponse();
-                        });
-                    } else {
-                        this.messages.unshift(response);
-                        if (response.multiple) this.callResponse();
-                    }
-                }, 1000);
+                        }
+                    }, 1000);
+                }
+            } else {
+                var dataRequest = {"message": message}
+                var dataResponse = await this.getResponseChat(dataRequest)
+                console.log(dataResponse)
+                if (dataResponse.error) {
+                  console.log("error")
+                  response = { text: 'Error de servidor. En estos momentos no puedo ayudarte.. intentalo de nuevo más tarde.', isUser: false }
+                }else{
+                  console.log(dataResponse)
+                  response = { text: dataResponse.data, isUser: false }
+                }
+                this.loading = false;
+                this.messages.unshift(response);
             }
         }
     }
@@ -173,7 +186,7 @@ export default {
         max-width: 600px;
 
         @media (max-width: 768px) {
-            height: 100vh;
+            height: 100dvh;
             width: 100%;
             max-width: 100%;
             border-radius: 0;

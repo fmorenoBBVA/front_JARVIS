@@ -85,7 +85,8 @@ export default {
         width: fit-content;
         font-family: Inter;
         max-width: 85%;
-        display: block;
+        display: flex;
+        gap: 5px;
         
         .jarvis-message-text {
             padding: 5px 10px;

@@ -2,12 +2,15 @@ import { createStore } from 'vuex'
 import * as ApiService from '../services/ApiService.js'
 
 import toastConfirmDialogModule from '@/modules/toastConfirmDialog'
+import chatModule from '@/modules/chat'
+
 
 
 // Create a new store instance.
 const store = createStore({
   modules: {
-    toastConfirmDialogModule
+    toastConfirmDialogModule,
+    chatModule
   },
   state () {
     return {
