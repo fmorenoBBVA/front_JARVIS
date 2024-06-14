@@ -23,7 +23,7 @@ import ContactImage from '@/assets/jarvis/contact.png'
 
 import MP3_02 from '@/assets/audios/02_Hola_Paco.mp3'
 import MP3_03 from '@/assets/audios/03_Hay_muchas_opciones.mp3'
-import MP3_04 from '@/assets/audios/04_Estos_cursos_ofrecen_diferentes_enfoques.mp3'
+// import MP3_04 from '@/assets/audios/04_Estos_cursos_ofrecen_diferentes_enfoques.mp3'
 import MP3_05 from '@/assets/audios/05_Este_curso_tiene_una_duracion.mp3'
 import MP3_06 from '@/assets/audios/06_Hay_varias_fechas_disponibles.mp3'
 import MP3_07 from '@/assets/audios/07_Este_curso_se_imparte_de_forma_presencial.mp3'
@@ -58,13 +58,13 @@ export default {
             sentMessagesCount: 0,
             demo_responses: [
                 {text: "Hola, Paco. Veo que tienes conocimientos en frontend. Te recomendaría que te formases también en tecnologías de backend, por ejemplo Python.", isUser: false, multiple: true, audio: MP3_02},
-                {text: "Hay muchas opciones, aquí tienes los enlaces:", isUser: false, multiple: true, audio: MP3_03, links: [
+                {text: "Hay muchas opciones, aquí tienes los enlaces:", isUser: false, multiple: false, audio: MP3_03, links: [
                     {text: "Charla Ninja: Python", url: "https://bbva-intranet.appspot.com/"},
                     {text: "MOOC Ninja: Python", url: "https://bbva-intranet.appspot.com/"},
                     {text: "Curso online en Coursera: Programación en Python", url: "https://bbva-intranet.appspot.com/"},
                     {text: "Curso presencial: Introducción a Python.", url: "https://bbva-intranet.appspot.com/"}
                 ]},
-                {text: "Estos cursos ofrecen diferentes enfoques y duraciones, elige el que mejor se adapte a tu disponibilidad.", isUser: false, multiple: false, audio: MP3_04},
+                // {text: "Estos cursos ofrecen diferentes enfoques y duraciones, elige el que mejor se adapte a tu disponibilidad.", isUser: false, multiple: false, audio: MP3_04},
                 {text: "Este curso tiene una duración de 5 días, un total de 40 horas.", isUser: false, multiple: false, audio: MP3_05},
                 {text: "Hay varias fechas disponibles. Las convocatorias que no coinciden con tus vacaciones solicitadas son estas:", isUser: false, multiple: false, audio: MP3_06, buttons: [
                     {text: "24/06 - 28/06", value: "Reservame para la fecha: 24/06 - 28/06"},
@@ -78,8 +78,8 @@ export default {
                 {text: "Para realizar tu liquidación de gastos, puedes acceder a través de estos sitios web:<br><br>- Mi Espacio - Tu día a día - Mis gastos<br>- Menú principal - Herramientas - Liquidación de gastos de viaje<br><br>Recuerda cumplir con los importes máximos autorizados en la normativa. Consúltala <a href='https://bbva-intranet.appspot.com/'>aquí</a>.", isUser: false, multiple: true, audio: MP3_11},
                 {text: "Una vez accedas a la aplicación SAP Concur, tendrás que crear un nuevo informe de gastos haciendo click en '+ Nuevo Informe'. A continuación debes incluir en el informe los gastos realizados, pudiendo seleccionar aquellos gastos disponibles, como son los movimientos de tarjeta corporativa o aquellos que hayas creado mediante captura con la app móvil o crear un gasto nuevo en el informe.\nDebes incluir en cada gasto el comprobante digitalizado, bien a través de la app o subiendo un comprobante que tengas previamente archivado. Si todo es correcto, envía el informe para su aprobación. <a href='https://bbva-intranet.appspot.com/'>SAP Concur</a>", isUser: false, multiple: false},
                 {text: "Tienes varias opciones, pero según las valoraciones de los usuarios, te recomiendo esta charla Ninja.", isUser: false, multiple: false, image: NinjaImage, audio: MP3_12},
-                {text: "Sí, por supuesto, aquí tienes el resumen de la transcripción del video.", isUser: false, multiple: false, image: DocumentImage, audio: MP3_13},
-                {text: "Sí, esta es la presentación que he creado.", isUser: false, multiple: true, image: PresentationImage, audio: MP3_14},
+                {text: "Sí, por supuesto, aquí tienes el resumen de la transcripción del video.", isUser: false, multiple: false, image: DocumentImage, audio: MP3_13, delay: true},
+                {text: "Sí, esta es la presentación que he creado.", isUser: false, multiple: true, image: PresentationImage, audio: MP3_14, delay: true},
                 {text: "¿Te puedo ayudar en algo más?", isUser: false, multiple: false, audio: MP3_15},
                 {text: "Puedes preguntar a Miguel Ángel Almena García. Tiene un nivel avanzado en Python y trabaja en tu misma oficina y departamento.", isUser: false, multiple: true, audio: MP3_16},
                 {text: "Esta es su información de contacto.", isUser: false, multiple: false, image: ContactImage},
@@ -115,6 +115,8 @@ export default {
                 response = this.demo_responses[this.sentMessagesCount];
                 this.sentMessagesCount++;
                 if (response) {
+                    console.log(response)
+                    const time = response.delay ? 3000 : 1000;
                     setTimeout(() => {
                         this.loading = false;
                         // play audio
@@ -136,7 +138,7 @@ export default {
                             this.messages.unshift(response);
                             if (response.multiple) this.callResponse();
                         }
-                    }, 1000);
+                    }, time);
                 }
             } else {
                 var dataRequest = {"message": message}
